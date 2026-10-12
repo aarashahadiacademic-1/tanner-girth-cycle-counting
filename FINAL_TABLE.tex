@@ -1,0 +1,29 @@
+\begin{table}[t]
+\centering
+\caption{Exact and Hybrid girth-cycle counting. Mean runtimes are in milliseconds over 100 runs; MARE is in percent.}
+\label{tab:combined-exp}
+\scriptsize
+\setlength{\tabcolsep}{2pt}
+\begin{tabular}{lccrrrrr}\hline
+Graph & $(d_v,d_c)$ & $g$ & $n$ & $N_g$ &
+Exact & Hybrid & MARE\\\hline
+A16c & $(3,6)$ & 6 & 672 & 2560 & \textbf{0.10} & 0.78 & 4.30 \\
+A128c & $(3,6)$ & 6 & 5376 & 20480 & \textbf{0.96} & 1.08 & 8.63 \\
+A256c & $(3,6)$ & 6 & 10752 & 40960 & 2.64 & \textbf{1.68} & 8.63 \\
+A128r & $(3,6)$ & 6 & 5376 & 176 & \textbf{1.24} & 9.06 & 0 \\
+B128c & $(3,4)$ & 6 & 2560 & 4608 & \textbf{0.31} & 0.42 & 8.33 \\
+C128c & $(4,8)$ & 6 & 11264 & 204928 & 5.50 & \textbf{2.96} & 7.70 \\
+C256c & $(4,8)$ & 6 & 22528 & 409856 & 15.91 & \textbf{4.82} & 7.70 \\
+C512c & $(4,8)$ & 6 & 45056 & 819712 & 47.61 & \textbf{6.74} & 7.70 \\
+C128r & $(4,8)$ & 6 & 11264 & 1590 & \textbf{6.19} & 60.67 & 0 \\
+R1200 & $(4,8)$ & 6 & 1200 & 1564 & \textbf{0.92} & 4.36 & 0 \\
+R2400 & $(3,6)$ & 6 & 2400 & 155 & \textbf{0.83} & 4.13 & 0 \\
+D16c & $(3,6)$ & 8 & 4992 & 57680 & \textbf{3.75} & 3.77 & 7.58 \\
+D32c & $(3,6)$ & 8 & 9984 & 115360 & 8.60 & \textbf{4.85} & 7.58 \\
+P1200 & $(3,6)$ & 8 & 1200 & 65 & \textbf{0.99} & 6.80 & 0 \\
+P1600 & $(3,4)$ & 10 & 1600 & 11 & \textbf{2.11} & 11.38 & 0 \\
+Q410 & $(3,4)$ & 10 & 40448 & 40448 & \textbf{29.19} & 80.06 & 7.14 \\
+Q412 & $(3,4)$ & 12 & 36352 & 308992 & 70.35 & \textbf{57.64} & 10.13 \\
+\hline
+\end{tabular}
+\end{table}
