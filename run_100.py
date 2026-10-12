@@ -61,3 +61,43 @@ writer.writeheader()
 writer.writerows(rows)
 (P / "FINAL_TABLE.csv").write_text(out.getvalue())
 print("COMPLETE", len(rows), "100-run graphs; updated FINAL_TABLE.csv", flush=True)
+
+
+def display(x):
+    return "0" if float(x) == 0 else f"{float(x):.2f}"
+def highlight(x, winner):
+    return "\\textbf{" + display(x) + "}" if winner else display(x)
+tex = [
+    r"\begin{table}[t]", r"\centering",
+    r"\caption{Exact and Hybrid girth-cycle counting. Mean runtimes are in milliseconds over 100 runs; MARE is in percent.}",
+    r"\label{tab:combined-exp}", r"\scriptsize",
+    r"\setlength{\tabcolsep}{2pt}", r"\begin{tabular}{lccrrrrr}\hline",
+    r"Graph & $(d_v,d_c)$ & $g$ & $n$ & $N_g$ &",
+    r"Exact & Hybrid & MARE\\\hline"
+]
+md = [
+    "# Exact versus Hybrid: girth-cycle counting", "",
+    "Arithmetic means of 100 executions per method and graph (milliseconds).", "",
+    "| Graph | (dv,dc) | g | n | Ng | Exact | Hybrid | MARE (%) |",
+    "|---|---|---:|---:|---:|---:|---:|---:|"
+]
+for x in rows:
+    exact_ms = float(x["Exact_ms"])
+    hybrid_ms = float(x["Hybrid_ms"])
+    exwin = exact_ms <= hybrid_ms
+    ex = highlight(exact_ms, exwin)
+    hy = highlight(hybrid_ms, not exwin)
+    mare = display(x["MARE_percent"])
+    tex.append(f"{x['graph']} & $({x['dv']},{x['dc']})$ & {x['g']} & {x['n']} & {x['Ng']} & {ex} & {hy} & {mare} " + r"\\")
+    md_ex = "**" + display(exact_ms) + "**" if exwin else display(exact_ms)
+    md_hy = "**" + display(hybrid_ms) + "**" if not exwin else display(hybrid_ms)
+    md.append(f"| {x['graph']} | ({x['dv']},{x['dc']}) | {x['g']} | {x['n']} | {x['Ng']} | {md_ex} | {md_hy} | {mare} |")
+tex.extend([r"\hline", r"\end{tabular}", r"\end{table}", ""])
+md.extend(["", "## Sample standard deviations across 100 runs (ms)", "",
+           "| Graph | Exact SD | Hybrid SD |", "|---|---:|---:|"])
+for x in rows:
+    md.append(f"| {x['graph']} | {display(x['Exact_std_ms'])} | {display(x['Hybrid_std_ms'])} |")
+md.extend(["", "Full-precision means and graph hashes are in FINAL_TABLE.csv.", ""])
+(P / "FINAL_TABLE.tex").write_text("\n".join(tex))
+(P / "FINAL_TABLE.md").write_text("\n".join(md))
+print("UPDATED_CSV_TEX_MD", flush=True)
