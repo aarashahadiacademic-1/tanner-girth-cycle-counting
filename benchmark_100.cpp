@@ -10,6 +10,7 @@ int main(int argc,char**argv){
  try{
   if(argc<4)throw runtime_error("usage: benchmark_100 graph.edges girth expectedNg [reps]");
   G gr(argv[1]);int girth=stoi(argv[2]);ull expected=stoull(argv[3]);
+  if(argc>4&&string(argv[4])=="verify"){if(exact(gr,girth)!=expected)throw runtime_error("Exact girth count mismatch");cout<<"VERIFIED "<<expected<<"\n";return 0;}
   int repeats=argc>4?stoi(argv[4]):100;
   if(repeats!=100)throw runtime_error("final protocol requires exactly 100 trials");
   vector<double> timings[2];for(auto &x:timings)x.reserve(repeats);
