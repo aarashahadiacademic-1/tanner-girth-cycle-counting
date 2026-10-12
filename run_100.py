@@ -37,9 +37,9 @@ for row in rows:
     if hashlib.sha256(graph.read_bytes()).hexdigest() != row["sha256"]:
         raise RuntimeError("Graph SHA-256 mismatch: " + name)
     if args.verify_only:
-        # This is the original Exact function, invoked through a minimal compile-only verifier.
-        # The benchmark is invoked below only for a full reproducible 100-run measurement.
-        print("HASH_VERIFIED", name, "Ng", row["Ng"], flush=True)
+        subprocess.run([str(exe), str(graph), row["g"], row["Ng"], "verify"],
+                       text=True, capture_output=True, check=True, timeout=120)
+        print("COUNT_VERIFIED", name, "Ng", row["Ng"], flush=True)
         continue
     process = subprocess.run([str(exe), str(graph), row["g"], row["Ng"], "100"],
                              text=True, capture_output=True, timeout=1200, check=True)
@@ -52,7 +52,7 @@ for row in rows:
     print("VERIFIED_100", name, "Exact", result["Exact_ms"],
           "Hybrid", result["Hybrid_ms"], flush=True)
 if args.verify_only:
-    print("ALL_17_HASHES_VERIFIED", flush=True)
+    print("ALL_17_HASHES_AND_COUNTS_VERIFIED", flush=True)
     sys.exit(0)
 import io
 out = io.StringIO()
