@@ -1,0 +1,21 @@
+name: Verify girth-only Exact and Hybrid benchmark
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/verify.yml'
+      - 'exact_hybrid.cpp'
+      - 'benchmark_100.cpp'
+      - 'run_100.py'
+      - 'generate_graphs.py'
+      - 'FINAL_TABLE.csv'
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download four reference graph inputs
+        run: git clone --quiet --depth=1 https://github.com/aarashahadiacademic-1/tanner-cycle-counting.git /tmp/reference-tanner-graphs
+      - name: Compile original methods and verify all 17 exact counts
+        run: python3 run_100.py --verify-only
